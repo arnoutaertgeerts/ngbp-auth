@@ -10,6 +10,7 @@
     "angular-cookies": "~1.2.12"
   },
   "dependencies": {
-    "angular-validation": "~1.2.0"
+    "angular-validation": "~1.2.0",
+    "angular-xeditable": "~0.1.8"
   }
 }

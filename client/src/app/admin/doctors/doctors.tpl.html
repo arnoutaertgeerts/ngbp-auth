@@ -1,0 +1,96 @@
+<table class="table table-bordered table-hover table-condensed">
+    <tr style="font-weight: bold">
+        <td style="width:10%">First Name</td>
+        <td style="width:10%">Last Name</td>
+        <td style="width:15%">Afbeelding URL</td>
+        <td style="width:30%">Tekst</td>
+        <td style="width:15%">Afwezigheden</td>
+        <td style="width:15%">Kalendar URL</td>
+        <td style="width:5%">Positie</td>
+        <td style="width:5%">Home</td>
+        <td style="width:5%">Team</td>
+    </tr>
+    <tr ng-repeat="doc in doctors | orderBy:'position'">
+        <td>
+        <span editable-text="doc.firstName" e-name="firstName" e-form="doctorform"
+              e-required>
+          {{ doc.firstName || 'empty' }}
+        </span>
+        </td>
+
+        <td>
+        <span editable-text="doc.lastName" e-name="lastName" e-form="doctorform"
+              e-required>
+            {{ doc.lastName || 'empty' }}
+        </span>
+        </td>
+
+        <td>
+        <span editable-text="doc.imageURL" e-name="imageURL" e-form="doctorform" e-required>
+          <img class="img-responsive" ng-src="{{ doc.imageURL }}">
+        </span>
+        </td>
+
+        <td>
+        <span editable-textarea="doc.text" e-name="text" e-form="doctorform" e-required e-rows="7" e-cols="40">
+          {{ doc.text || "empty" }}
+        </span>
+        </td>
+
+        <td>
+        <span editable-textarea="doc.absent" e-name="absent" e-form="doctorform" e-cols="40"
+              e-required>
+          {{ doc.absent || 'empty' }}
+        </span>
+        </td>
+
+        <td>
+        <span editable-text="doc.calendarURL" e-name="calendarURL" e-form="doctorform"
+              e-required>
+          {{ doc.calendarURL || 'empty' }}
+        </span>
+        </td>
+
+        <td>
+        <span editable-text="doc.position" e-name="position" e-form="doctorform"
+              e-required>
+          {{ doc.position || 'empty' }}
+        </span>
+        </td>
+
+        <td>
+        <span editable-checkbox="doc.showHome" e-name="showHome" e-form="doctorform"
+              e-required>
+          {{ doc.showHome && "Ja" || "Nee" }}
+        </span>
+        </td>
+
+        <td>
+        <span editable-checkbox="doc.showTeam" e-name="showTeam" e-form="doctorform"
+              e-required>
+          {{ doc.showTeam  && "Ja" || "Nee" }}
+        </span>
+        </td>
+
+        <td style="white-space: nowrap">
+            <!-- form -->
+            <form editable-form name="doctorform" onbeforesave="save({$data: $data, doc: doc})"
+                  ng-show="doctorform.$visible"
+                  class="form-buttons form-inline" shown="inserted == doc">
+                <button type="submit" ng-disabled="doctorform.$waiting" class="btn btn-success">
+                    Save
+                </button>
+                <button type="button" ng-disabled="doctorform.$waiting" ng-click="doctorform.$cancel()"
+                        class="btn btn-default">
+                    Cancel
+                </button>
+            </form>
+            <div class="buttons" ng-show="!doctorform.$visible">
+                <button class="btn btn-primary" ng-click="doctorform.$show()">Edit</button>
+                <button class="btn btn-danger" ng-click="remove({$index: $index, doc: doc})">Delete</button>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<button class="btn btn-default" ng-click="add()">Voeg een nieuwe dokter toe</button>

@@ -68,9 +68,11 @@ module.exports = {
             'vendor/angular-ui-router/release/angular-ui-router.js',
             'vendor/angular-ui-utils/modules/route/route.js',
             'vendor/angular-cookies/angular-cookies.min.js',
-            'vendor/angular-validation/dist/angular-validation.min.js'
+            'vendor/angular-validation/dist/angular-validation.min.js',
+            'vendor/angular-xeditable/dist/js/xeditable.min.js'
         ],
         css: [
+            'vendor/angular-xeditable/dist/css/xeditable.css'
         ],
         assets: [
         ]

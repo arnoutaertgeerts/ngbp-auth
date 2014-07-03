@@ -180,6 +180,20 @@ module.exports = {
         return User.find({'username': username}).exec();
     },
 
+    findById: function(id) {
+        var deferred = Q.defer();
+        User.findById(id, function(err, doc) {
+            if (err) {
+                deferred.reject(err)
+            }
+            else {
+                deferred.resolve(doc)
+            }
+        });
+
+        return deferred.promise
+    },
+
     query: function(query) {
         return User.find(query).lean().exec();
     },

@@ -10,9 +10,10 @@ module.exports = function (app) {
 
         //Default user to easily add correct new items to the database
         app.get('/default', auth.adminRequired, ctrl.standard);
-
         app.get('/current', ctrl.full);
+        app.get('/', auth.loginRequired, ctrl.query);
 
-        app.get('/', auth.adminRequired, ctrl.query);
+        //Update a user profile
+        app.put('/:id', auth.loginRequired, ctrl.update);
     });
 };

@@ -5,6 +5,7 @@ angular.module('ngBoilerplate', [
     //Pages
     'home',
     'about',
+    'admin',
     'register',
     'login',
     //Plugins

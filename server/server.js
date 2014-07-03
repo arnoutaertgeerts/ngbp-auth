@@ -21,6 +21,7 @@ require('./lib/connection');
 
 //Bootstrap models
 require('./app/users/user-models');
+require('./app/dokters/dokter-models');
 
 //Get the user model
 var User = require('./app/users/user-models.js');
@@ -73,6 +74,7 @@ app.use(function (req, res, next) {
 
 //Routes
 require('./app/users/user-routes')(app);
+require('./app/dokters/dokter-routes')(app, auth);
 require('./app/app-routes/authorization.js')(app);
 
 //HTML5 Mode (needs to be the last route added)

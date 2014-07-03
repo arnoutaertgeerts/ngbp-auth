@@ -12,8 +12,8 @@ module.exports = {
     loginRequired: function(req, res, next) {
         var role;
         if(!req.user) role = userRoles.public;
-        else          role = req.user.role;
-        var accessLevel = accessLevels.login;
+        else          role = userRoles[req.user.role];
+        var accessLevel = accessLevels.user;
 
         if(!(accessLevel.bitMask & role.bitMask)) return res.send(403);
         return next();
@@ -26,6 +26,27 @@ module.exports = {
         var accessLevel = accessLevels.admin;
 
         if(!(accessLevel.bitMask & role.bitMask)) return res.send(403);
+        return next();
+    },
+
+    userOrAdmin: function(req, res, next) {
+        var role;
+        var accessLevel = accessLevels.admin;
+        if(!req.user) {
+            role = userRoles.public;
+        }
+        else {
+            role = userRoles[req.user.role];
+        }
+
+        if(req.params.id === req.user.id) {
+            return next();
+        }
+
+        if(!(accessLevel.bitMask & role.bitMask)) {
+            return res.send(403);
+        }
+
         return next();
     },
 

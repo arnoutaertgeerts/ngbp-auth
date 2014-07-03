@@ -1,10 +1,10 @@
 /**
  * Module dependencies.
  */
-var mongoose =          require('mongoose'),
-    utility =           require('../../lib/utility.js'),
+var mongoose = require('mongoose'),
+    utility = require('../../lib/utility.js'),
 
-    User = mongoose.model('User');
+    User = require('./user-models.js');
 
 module.exports = {
     //Auth Callback
@@ -27,9 +27,9 @@ module.exports = {
     checkMail: function (req, res) {
         var email = req.body.field;
 
-        utility.checkUnique(email, User, 'email').then(function() {
+        utility.checkUnique(email, User, 'email').then(function () {
             res.send(200);
-        }).catch(function(err) {
+        }).catch(function (err) {
             res.json(403, {isTaken: true});
         });
     },
@@ -38,9 +38,9 @@ module.exports = {
     checkName: function (req, res) {
         var username = req.body.field;
 
-        utility.checkUnique(username, User, 'username').then(function() {
+        utility.checkUnique(username, User, 'username').then(function () {
             res.send(200);
-        }).catch(function(err) {
+        }).catch(function (err) {
             res.json(403, {isTaken: true});
         });
     },
@@ -57,10 +57,10 @@ module.exports = {
 
     //Find a user by id
     user: function (req, res, next, id) {
-        User.findById(id).then(function(user) {
+        User.findById(id).then(function (user) {
             req.profile = user;
             next()
-        }).catch(function(err) {
+        }).catch(function (err) {
             next(err);
         });
     },
@@ -69,47 +69,45 @@ module.exports = {
     query: function (req, res, next) {
         var query = JSON.parse(req.query.q);
 
-        User.query(query).then(function(result) {
-            if(result.length > 0) {
+        User.query(query).then(function (result) {
+            if (result.length > 0) {
                 res.send(result)
             } else {
                 res.send(404, 'null')
             }
-        }).catch(function(err) {
+        }, function (err) {
             res.send(404, 'null');
             console.log(err)
         })
     },
 
     update: function (req, res) {
-        User.user(req.params.id, function (err, doc) {
-            if (!err) {
-                utility.updateDocument(doc, User, req.body);
-                doc.save(function (err) {
-                    if (!err) {
-                        res.send(200,
-                            {"messages": [
-                                {"text": "All changes saved", "severity": "success"}
-                            ]}
-                        );
-                    }
-                    else {
-                        res.send(400,
-                            {"messages": [
-                                {"text": "Something went wrong saving your request", "severity": "error"}
-                            ]}
-                        );
-                    }
-                });
+        User.findById(req.params.id).then(function (doc) {
 
-            }
-            else {
-                res.send(400,
-                    {"messages": [
-                        {"text": "Something went wrong saving your request", "severity": "error"}
-                    ]});
-            }
-        });
+            utility.updateDocument(doc, User, req.body);
+            doc.save(function (err) {
+                if (!err) {
+                    res.send(200,
+                        {"messages": [
+                            {"text": "All changes saved", "severity": "success"}
+                        ]}
+                    );
+                }
+                else {
+                    res.send(400,
+                        {"messages": [
+                            {"text": "Something went wrong saving your request", "severity": "error"}
+                        ]}
+                    );
+                }
+            })
+
+        }, function (err) {
+            res.send(400,
+                {"messages": [
+                    {"text": "Something went wrong saving your request", "severity": "error"}
+                ]});
+        })
     }
 };
 
