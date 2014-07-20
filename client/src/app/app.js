@@ -8,6 +8,7 @@ angular.module('ngBoilerplate', [
     'admin',
     'register',
     'login',
+    'user',
     //Plugins
     'authorization',
     'ui.router',
@@ -62,7 +63,7 @@ angular.module('ngBoilerplate', [
 
     })
 
-    .run(['$rootScope', '$state', 'Auth', function run($rootScope, $state, Auth) {
+    .run(['$rootScope', '$state', 'Auth', 'editableOptions', function run($rootScope, $state, Auth, editableOptions) {
 
         /*
          * Check the accessibility rights before changing route
@@ -80,6 +81,8 @@ angular.module('ngBoilerplate', [
                 }
             }
         });
+
+        editableOptions.theme = 'bs3';
     }])
 
     .controller('AppCtrl', [

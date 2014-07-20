@@ -26,12 +26,14 @@ angular.module('authorization', [
 
                 return accessLevel.bitMask & role.bitMask;
             },
+
             isLoggedIn: function (user) {
                 if (user === undefined) {
                     user = currentUser;
                 }
                 return user.role.title === userRoles.user.title || user.role.title === userRoles.admin.title;
             },
+
             register: function (user, success, error) {
                 $http.post('/register', user).success(function (res) {
                     res.role = userRoles[res.role];
@@ -41,6 +43,7 @@ angular.module('authorization', [
                     error(err);
                 });
             },
+
             login: function (user, success, error) {
                 $http.post('/login', user).success(function (user) {
                     user.role = userRoles[user.role];
@@ -48,6 +51,7 @@ angular.module('authorization', [
                     success(user);
                 }).error(error);
             },
+
             logout: function (success, error) {
                 $http.post('/logout').success(function () {
                     changeUser({
@@ -58,6 +62,7 @@ angular.module('authorization', [
                     success();
                 }).error(error);
             },
+
             accessLevels: accessLevels,
             userRoles: userRoles,
             user: currentUser

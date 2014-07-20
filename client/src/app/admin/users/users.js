@@ -10,14 +10,14 @@ angular.module('admin.users', [
             url: '/users',
             views: {
                 "admin": {
-                    controller: 'UserCtrl',
+                    controller: 'UserAdminCtrl',
                     templateUrl: 'admin/users/users.tpl.html'
                 }
             }
         });
     }])
 
-    .controller('UserCtrl', ['$scope', 'Users', function ($scope, User) {
+    .controller('UserAdminCtrl', ['$scope', '$filter', 'Users', function ($scope, $filter, User) {
         $scope.users = [];
 
         //Load users
@@ -29,8 +29,6 @@ angular.module('admin.users', [
         });
 
         $scope.saveUser = function (data, user) {
-            console.log(data);
-            console.log(user);
 
             for (var key in data) {
                 if (data.hasOwnProperty(key)) {
@@ -55,7 +53,7 @@ angular.module('admin.users', [
 
     }])
 
-    .directive('adminUser', [function () {
+    .directive('adminUser', ['$filter', function ($filter) {
         return {
             restrict: 'E',
             templateUrl: 'admin/users/directive.tpl.html',
@@ -70,6 +68,16 @@ angular.module('admin.users', [
                 scope.$watch('students', function(value) {
                     scope.students = value;
                 });
+
+                //Get and show the user Roles
+                scope.roles = [routingConfig.roles][0];
+                scope.showRole = function(user) {
+                    var selected = [];
+                    if(user.role) {
+                        selected = $filter('filter')(scope.roles, user.role);
+                    }
+                    return selected.length ? selected[0] : 'Not set';
+                };
             }
         };
     }]);

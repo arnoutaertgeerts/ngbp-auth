@@ -55,14 +55,12 @@ module.exports = {
         res.send(filterUserFull(req.user));
     },
 
-    //Find a user by id
-    user: function (req, res, next, id) {
-        User.findById(id).then(function (user) {
-            req.profile = user;
-            next()
-        }).catch(function (err) {
-            next(err);
-        });
+    remove: function(req, res) {
+        User.remove(req.params.id).then(function(msg) {
+            res.json(200, msg);
+        }).catch(function(msg) {
+            res.json(400, msg);
+        })
     },
 
     //Query the user collection
@@ -84,7 +82,7 @@ module.exports = {
     update: function (req, res) {
         User.findById(req.params.id).then(function (doc) {
 
-            utility.updateDocument(doc, User, req.body);
+            utility.updateDocument(doc, User.model(), req.body);
             doc.save(function (err) {
                 if (!err) {
                     res.send(200,
@@ -102,7 +100,7 @@ module.exports = {
                 }
             })
 
-        }, function (err) {
+        }).catch(function (err) {
             res.send(400,
                 {"messages": [
                     {"text": "Something went wrong saving your request", "severity": "error"}

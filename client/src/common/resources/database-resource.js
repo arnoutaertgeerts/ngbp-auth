@@ -55,6 +55,10 @@ angular.module('database').factory('Database', ['$http', '$q', function ($http, 
             angular.extend(this, data);
         };
 
+        Resource.transform = function(data) {
+            return new Resource(data);
+        };
+
         // Make a query (GET-request) to the database for the entered collection
         Resource.query = function (queryJson, successcb, errorcb) {
             // api/:collectionName/?query

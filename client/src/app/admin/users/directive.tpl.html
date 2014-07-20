@@ -1,9 +1,8 @@
 <table class="table table-bordered table-hover table-condensed">
     <tr style="font-weight: bold">
         <td style="width:20%">Name</td>
-        <td style="width:15%">Password</td>
         <td style="width:20%">Email</td>
-        <td style="width:20%">Admin?</td>
+        <td style="width:20%">Role</td>
         <td style="width:25%">Edit</td>
     </tr>
     <tr ng-repeat="user in users">
@@ -13,20 +12,19 @@
           {{ user.username || 'empty' }}
         </span>
         </td>
-        <td>
-            <button class="btn btn-warning">Change password </button>
-        </td>
+
         <td>
         <span editable-text="user.email" e-name="email" e-form="rowform" e-required>
           {{ user.email }}
         </span>
         </td>
-        <td>
 
-        <span editable-checkbox="user.admin" e-name="admin" e-form="rowform" e-required>
-          {{ user.admin && "Yes" || "No" }}
+        <td>
+        <span editable-select="user.role" e-name="role" e-form="rowform" e-ng-options="r for r in roles">
+          {{ showRole(user) }}
         </span>
         </td>
+
         <td style="white-space: nowrap">
             <!-- form -->
             <form editable-form name="rowform" onbeforesave="save({$data: $data, user: user})" ng-show="rowform.$visible"

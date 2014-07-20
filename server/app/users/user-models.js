@@ -191,7 +191,23 @@ module.exports = {
             }
         });
 
-        return deferred.promise
+        return deferred.promise;
+    },
+
+    remove: function(id) {
+        var deferred = Q.defer();
+
+        this.findById(id).then(function(user) {
+            user.remove(function(err) {
+                if(err) {
+                    deferred.reject(err)
+                } else {
+                    deferred.resolve('Successfully deleted.')
+                }
+            })
+        });
+
+        return deferred.promise;
     },
 
     query: function(query) {
@@ -307,5 +323,9 @@ module.exports = {
         }, '-salt -hashed_password', function (err, user) {
             done(err, user);
         });
+    },
+
+    model: function() {
+        return User;
     }
 };

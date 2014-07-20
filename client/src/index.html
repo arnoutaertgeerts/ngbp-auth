@@ -76,24 +76,19 @@
                         What is it?
                     </a>
                 </li>
-                <li ui-sref-active="active">
+                <li access-level="admin" ui-sref-active="active">
                     <a href ui-sref="admin">
                         <i class="fa fa-book"></i>
                         Admin
                     </a>
                 </li>
-                <li>
-                    <a href="https://github.com/ngbp/ngbp">
-                        <i class="fa fa-github-alt"></i>
-                        Github
+                <li access-level="user" ui-sref-active="active">
+                    <a href ui-sref="user">
+                        <i class="fa fa-user"></i>
+                        Profile
                     </a>
                 </li>
-                <li>
-                    <a href="https://github.com/ngbp/ngbp/issues">
-                        <i class="fa fa-comments"></i>
-                        Support
-                    </a>
-                </li>
+
                 <li access-level="anon"><a href="/login">Log in</a></li>
                 <li access-level="anon"><a href="/register">Register</a></li>
                 <li access-level="user"><a href="" ng-click="logout()">Log out</a></li>
