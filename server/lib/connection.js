@@ -13,5 +13,5 @@ var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'.red));
 db.once('open', function callback() {
-    console.log('Connected to the Bleyenbergh database');
+    console.log('Connected to the database');
 });

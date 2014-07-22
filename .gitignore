@@ -6,3 +6,4 @@
 /client/vendor/*
 
 /server/node_modules/*
+/server/lib/config.js
