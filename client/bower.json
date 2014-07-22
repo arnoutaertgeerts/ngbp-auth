@@ -12,6 +12,7 @@
   "dependencies": {
     "angular-validation": "~1.2.0",
     "angular-xeditable": "~0.1.8",
-    "angular-growl-notifications": "~0.7.0"
+    "angular-growl-notifications": "~0.7.0",
+    "angular-loading-bar": "~0.5.0"
   }
 }

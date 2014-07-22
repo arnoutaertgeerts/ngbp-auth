@@ -14,7 +14,8 @@ angular.module('ngBoilerplate', [
     'ui.router',
     'validation',
     'growlNotifications',
-    'ngSanitize'
+    'ngSanitize',
+    'angular-loading-bar'
 ])
 
     .config(function myAppConfig($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {

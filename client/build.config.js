@@ -71,10 +71,12 @@ module.exports = {
             'vendor/angular-validation/dist/angular-validation.min.js',
             'vendor/angular-xeditable/dist/js/xeditable.min.js',
             'vendor/angular-sanitize/angular-sanitize.min.js',
-            'vendor/angular-growl-notifications/dist/growl-notifications.js'
+            'vendor/angular-growl-notifications/dist/growl-notifications.js',
+            'vendor/angular-loading-bar/build/loading-bar.min.js'
         ],
         css: [
-            'vendor/angular-xeditable/dist/css/xeditable.css'
+            'vendor/angular-xeditable/dist/css/xeditable.css',
+            'vendor/angular-loading-bar/build/loading-bar.min.css'
         ],
         assets: [
         ]
