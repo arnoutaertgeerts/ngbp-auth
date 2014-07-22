@@ -1,16 +1,8 @@
-<tabset>
-    <tab>
-        <tab-heading>
-            <a ui-sref="admin.user" ui-sref-active="active">Users</a>
-        </tab-heading>
-    </tab>
-    <tab>
-        <tab-heading>
-            <a ui-sref="admin.doctor" ui-sref-active="active">Doctors</a>
-        </tab-heading>
-    </tab>
-</tabset>
+<div class="btn-group">
+    <a ui-sref="admin.user" ui-sref-active="active"><button type="button" class="btn btn-default">Users</button></a>
+    <a ui-sref="admin.doctor" ui-sref-active="active"><button type="button" class="btn btn-default">Doctors</button></a>
+</div>
 
-<div class="spacer-70"></div>
+<div class="spacer-20"></div>
 
 <div class="row"><div class="col-lg-12"><div ui-view="admin"></div></div></div>

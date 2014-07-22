@@ -106,7 +106,9 @@ var User = mongoose.model('User', UserSchema);
  */
 module.exports = {
     standard: function () {
-        var user = new User();
+        var user = new User({
+            password: 'default'
+        });
         user.save();
         return user
     },
