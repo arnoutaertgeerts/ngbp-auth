@@ -69,7 +69,9 @@ module.exports = {
             'vendor/angular-ui-utils/modules/route/route.js',
             'vendor/angular-cookies/angular-cookies.min.js',
             'vendor/angular-validation/dist/angular-validation.min.js',
-            'vendor/angular-xeditable/dist/js/xeditable.min.js'
+            'vendor/angular-xeditable/dist/js/xeditable.min.js',
+            'vendor/angular-sanitize/angular-sanitize.min.js',
+            'vendor/angular-growl-notifications/dist/growl-notifications.js'
         ],
         css: [
             'vendor/angular-xeditable/dist/css/xeditable.css'

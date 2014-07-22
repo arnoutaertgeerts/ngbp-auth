@@ -17,11 +17,11 @@ angular.module('admin', [
             },
             data: {
                 pageTitle: 'Admin',
-                access: access.public
+                access: access.user
             }
         });
     }])
 
     .controller('AdminCtrl', ['$scope', '$state', function ($scope, $state) {
-        console.log($state);
+
     }]);

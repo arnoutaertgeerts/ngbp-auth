@@ -12,7 +12,9 @@ angular.module('ngBoilerplate', [
     //Plugins
     'authorization',
     'ui.router',
-    'validation'
+    'validation',
+    'growlNotifications',
+    'ngSanitize'
 ])
 
     .config(function myAppConfig($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {

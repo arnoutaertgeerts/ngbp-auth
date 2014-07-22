@@ -15,7 +15,6 @@ module.exports = function (app) {
 
         //Update a user profile
         app.put('/:id', auth.loginRequired, ctrl.update);
-
         app.delete('/:id', auth.loginRequired, ctrl.remove);
     });
 };

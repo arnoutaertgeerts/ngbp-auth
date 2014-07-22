@@ -23,11 +23,13 @@
                     </div>
                     <div class="form-group">
                         <label for="validate">Retype password</label>
-                        <input class="form-control" id="validate" placeholder="Retype password" type="password">
+                        <input class="form-control" id="validate" placeholder="Retype password" type="password"
+                               ng-model="verification">
                     </div>
                     <button type="submit" class="btn btn-default" ng-click="register()">Register</button>
                 </form>
             </div>
         </div>
     </div>
+    <div class="col-md-7"><div growl-notifications></div></div>
 </div>

@@ -20,14 +20,15 @@
         </td>
 
         <td>
-        <span editable-select="user.role" e-name="role" e-form="rowform" e-ng-options="r for r in roles">
+        <span editable-select="user.role" e-name="role" e-form="rowform" e-ng-options="r.title for r in roles">
           {{ showRole(user) }}
         </span>
         </td>
 
         <td style="white-space: nowrap">
             <!-- form -->
-            <form editable-form name="rowform" onbeforesave="save({$data: $data, user: user})" ng-show="rowform.$visible"
+            <form editable-form name="rowform" onbeforesave="save({$data: $data, user: user})"
+                  ng-show="rowform.$visible"
                   class="form-buttons form-inline" shown="inserted == user">
                 <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-success">
                     Save

@@ -36,7 +36,6 @@ angular.module('authorization', [
 
             register: function (user, success, error) {
                 $http.post('/register', user).success(function (res) {
-                    res.role = userRoles[res.role];
                     changeUser(res);
                     success();
                 }).error(function(err) {
@@ -46,7 +45,6 @@ angular.module('authorization', [
 
             login: function (user, success, error) {
                 $http.post('/login', user).success(function (user) {
-                    user.role = userRoles[user.role];
                     changeUser(user);
                     success(user);
                 }).error(error);
@@ -61,6 +59,9 @@ angular.module('authorization', [
                     });
                     success();
                 }).error(error);
+            },
+            update: function(user) {
+                changeUser(user);
             },
 
             accessLevels: accessLevels,

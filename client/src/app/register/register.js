@@ -26,22 +26,23 @@ angular.module('register', [
         '$scope',
         '$location',
         'Auth',
-        function ($rootScope, $scope, $location, Auth) {
-            $scope.role = Auth.userRoles.user;
-            $scope.userRoles = Auth.userRoles;
+        'growlNotifications',
+        function ($rootScope, $scope, $location, Auth, growlNotifications) {
+            var role = Auth.userRoles.user;
 
             $scope.register = function () {
                 Auth.register({
                         username: $scope.username,
                         email: $scope.email,
                         password: $scope.password,
-                        role: $scope.role
+                        role: role,
+                        verification: $scope.verification
                     },
                     function () {
                         $location.path('/');
                     },
                     function (err) {
-                        $rootScope.error = angular.toJson(err);
+                        growlNotifications.add(angular.fromJson(err), 'danger');
                         $location.path('/register');
                     });
             };

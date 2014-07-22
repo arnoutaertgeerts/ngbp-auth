@@ -1,7 +1,8 @@
 
 angular.module('admin.users', [
     'xeditable',
-    'resources.users'
+    'resources.users',
+    'authorization'
 ])
 
     .config(['$stateProvider', function ($stateProvider) {
@@ -17,7 +18,7 @@ angular.module('admin.users', [
         });
     }])
 
-    .controller('UserAdminCtrl', ['$scope', '$filter', 'Users', function ($scope, $filter, User) {
+    .controller('UserAdminCtrl', ['$scope', '$filter', 'Users', 'Auth', function ($scope, $filter, User, Auth) {
         $scope.users = [];
 
         //Load users
@@ -70,7 +71,15 @@ angular.module('admin.users', [
                 });
 
                 //Get and show the user Roles
-                scope.roles = [routingConfig.roles][0];
+                var roles = routingConfig.userRoles;
+                scope.roles = [];
+
+                for (var property in roles) {
+                    if (roles.hasOwnProperty(property)) {
+                        scope.roles.push(roles[property]);
+                    }
+                }
+
                 scope.showRole = function(user) {
                     var selected = [];
                     if(user.role) {

@@ -3,6 +3,8 @@
  */
 var mongoose = require('mongoose'),
     utility = require('../../lib/utility.js'),
+    validator = require('validator'),
+    userRoles = require('../../../client/src/app/routingConfig').userRoles,
 
     User = require('./user-models.js');
 
@@ -55,11 +57,11 @@ module.exports = {
         res.send(filterUserFull(req.user));
     },
 
-    remove: function(req, res) {
-        User.remove(req.params.id).then(function(msg) {
+    remove: function (req, res) {
+        User.remove(req.params.id).then(function (msg) {
             res.json(200, msg);
-        }).catch(function(msg) {
-            res.json(400, msg);
+        }).catch(function (err) {
+            res.json(400, err);
         })
     },
 
@@ -79,33 +81,39 @@ module.exports = {
         })
     },
 
-    update: function (req, res) {
+    update: function (req, res, next) {
+        var username = req.body.username,
+            email = req.body.email,
+            password = req.body.password,
+            verification = req.body.verification,
+            role = req.body.role;
+
+        if (password) {
+            if (password != verification) {
+                res.json(400, 'Passwords do not match');
+                return;
+            }
+            if (!validator.isLength(password, 5, 60)) {
+                res.json(400, 'Password must be between 5-20 characters long');
+                return;
+            }
+        }
+
         User.findById(req.params.id).then(function (doc) {
-
-            utility.updateDocument(doc, User.model(), req.body);
-            doc.save(function (err) {
-                if (!err) {
-                    res.send(200,
-                        {"messages": [
-                            {"text": "All changes saved", "severity": "success"}
-                        ]}
-                    );
-                }
-                else {
-                    res.send(400,
-                        {"messages": [
-                            {"text": "Something went wrong saving your request", "severity": "error"}
-                        ]}
-                    );
-                }
+            User.validate(username, email, role, doc).then(function () {
+                utility.updateDocument(doc, User.model(), req.body);
+                doc.save(function (err) {
+                    if (!err) {
+                        res.send(200);
+                    }
+                    else {
+                        res.json(400, 'Something went wrong saving your request')
+                    }
+                })
             })
-
         }).catch(function (err) {
-            res.send(400,
-                {"messages": [
-                    {"text": "Something went wrong saving your request", "severity": "error"}
-                ]});
-        })
+            res.json(400, err)
+        });
     }
 };
 
