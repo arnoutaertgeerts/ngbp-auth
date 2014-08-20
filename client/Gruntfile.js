@@ -16,8 +16,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-coffeelint');
     grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-ngmin');
+    grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-html2js');
+    grunt.loadNpmTasks('grunt-html-snapshot');
 
     /**
      * Load in our build configuration file.
@@ -171,9 +172,9 @@ module.exports = function (grunt) {
             build_css: {
                 src: [
                     '<%= vendor_files.css %>',
-                    '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
+                    '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
                 ],
-                dest: '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
+                dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
             },
             /**
              * The `compile_js` target is the concatenation of our application source
@@ -219,7 +220,7 @@ module.exports = function (grunt) {
          * `ng-min` annotates the sources before minifying. That is, it allows us
          * to code without the array syntax.
          */
-        ngmin: {
+        ngAnnotate: {
             compile: {
                 files: [
                     {
@@ -395,7 +396,6 @@ module.exports = function (grunt) {
                 dir: '<%= compile_dir %>',
                 src: [
                     '<%= concat.compile_js.dest %>',
-                    '<%= vendor_files.css %>',
                     '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
                 ]
             }
@@ -537,6 +537,53 @@ module.exports = function (grunt) {
                     livereload: false
                 }
             }
+        },
+        htmlSnapshot: {
+            all: {
+                options: {
+                    //that's the path where the snapshots should be placed
+                    //it's empty by default which means they will go into the directory
+                    //where your Gruntfile.js is placed
+                    snapshotPath: 'bin/snapshots/',
+                    //This should be either the base path to your index.html file
+                    //or your base URL. Currently the task does not use it's own
+                    //webserver. So if your site needs a webserver to be fully
+                    //functional configure it here.
+                    sitePath: 'http://localhost:8000',
+                    //you can choose a prefix for your snapshots
+                    //by default it's 'snapshot_'
+                    fileNamePrefix: '',
+                    //by default the task waits 500ms before fetching the html.
+                    //this is to give the page enough time to to assemble itself.
+                    //if your page needs more time, tweak here.
+                    msWaitForPages: 1000,
+                    //sanitize function to be used for filenames. Converts '#!/' to '_' as default
+                    //has a filename argument, must have a return that is a sanitized string
+                    sanitize: function (requestUri) {
+                        //returns 'index.html' if the url is '/', otherwise a prefix
+                        if (/\/$/.test(requestUri)) {
+                            return 'home.html';
+                        } else {
+                            return requestUri.replace(/\//g, '');
+                        }
+                    },
+                    //if you would rather not keep the script tags in the html snapshots
+                    //set `removeScripts` to true. It's false by default
+                    removeScripts: true,
+                    //set `removeLinkTags` to true. It's false by default
+                    removeLinkTags: true,
+                    //set `removeMetaTags` to true. It's false by default
+                    removeMetaTags: false,
+                    //here goes the list of all urls that should be fetched
+                    urls: [
+                        '/home'
+                    ],
+                    // a list of cookies to be put into the phantomjs cookies jar for the visited page
+                    cookies: [
+                        {"path": "/", "domain": "localhost", "name": "lang", "value": "nl-be"}
+                    ]
+                }
+            }
         }
     };
 
@@ -551,7 +598,6 @@ module.exports = function (grunt) {
      */
     grunt.renameTask('watch', 'delta');
     grunt.registerTask('watch', [ 'build', 'karma:unit', 'delta' ]);
-
     /**
      * The default task is to build and compile.
      */
@@ -572,7 +618,7 @@ module.exports = function (grunt) {
      * minifying your code.
      */
     grunt.registerTask('compile', [
-        'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
+        'less:compile', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'concat:build_css', 'uglify', 'index:compile', 'htmlSnapshot'
     ]);
 
     /**
