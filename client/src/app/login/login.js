@@ -27,8 +27,7 @@ angular.module('login', [
         '$location',
         '$window',
         'Auth',
-        'growlNotifications',
-        function ($rootScope, $scope, $location, $window, Auth, growlNotifications) {
+        function ($rootScope, $scope, $location, $window, Auth) {
 
             $scope.rememberme = true;
             $scope.login = function () {
@@ -41,7 +40,6 @@ angular.module('login', [
                         $location.path('/home');
                     },
                     function (err) {
-                        growlNotifications.add(angular.fromJson(err), 'danger');
                         $location.path('/login');
                     });
             };

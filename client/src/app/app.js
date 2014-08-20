@@ -13,7 +13,6 @@ angular.module('ngBoilerplate', [
     'authorization',
     'ui.router',
     'validation',
-    'growlNotifications',
     'ngSanitize',
     'angular-loading-bar'
 ])
@@ -74,7 +73,6 @@ angular.module('ngBoilerplate', [
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
 
             if (!Auth.authorize(toState.data.access)) {
-                $rootScope.error = "Seems like you tried accessing a route you don't have access to...";
                 event.preventDefault();
 
                 if (Auth.isLoggedIn()) {
